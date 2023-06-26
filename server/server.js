@@ -1,6 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const bodyparser = require("body-parser");
+require("dotenv").config();
+
+const secretKey = process.env.SECRET_KEY;
 
 const app = express();
 app.use(express.static("public"));
@@ -8,9 +11,7 @@ app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 app.use(cors({ origin: true, credentials: true }));
 
-const stripe = require("stripe")(
-  "sk_test_51NN81eDyIRmicXjyx9WpJTRWFaUMe5KrIubDqhUR5wfXrf7zONodHcfleT8c0bd59kzm5Uk3myKh2m0dXAITlXWz006T5v4khj"
-);
+const stripe = require("stripe")(secretKey);
 
 app.post("/checkout", async (req, res, next) => {
   try {
